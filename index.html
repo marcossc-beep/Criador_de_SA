@@ -33,7 +33,7 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col lg:flex-row antialiased text-gray-800">
 
-    <div class="w-full lg:w-[400px] xl:w-[450px] bg-slate-900 text-slate-100 p-6 flex flex-col justify-between shrink-0 no-print shadow-2xl z-10">
+    <div class="w-full lg:w-[420px] xl:w-[460px] bg-slate-900 text-slate-100 p-6 flex flex-col justify-between shrink-0 no-print shadow-2xl z-10 lg:max-h-screen lg:overflow-y-auto relative pb-24">
         <div>
             <h1 class="text-xl font-bold tracking-tight border-b border-slate-800 pb-3 text-slate-200">Criador de Enunciados</h1>
             
@@ -43,31 +43,57 @@
             </div>
 
             <div id="area-manual" class="space-y-4">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Nome da Dupla</label>
-                    <input type="text" id="input-dupla" oninput="updatePreview()" placeholder="Ex: João Silva e Vinicius Braz" class="w-full p-2.5 rounded-md bg-slate-800 border border-slate-700 mt-1 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tema Geral da Atividade</label>
-                    <input type="text" id="input-tema" oninput="updatePreview()" placeholder="Ex: Agendamento de Barbearia" class="w-full p-2.5 rounded-md bg-slate-800 border border-slate-700 mt-1 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">1. Contextualização</label>
-                    <textarea id="input-contexto" oninput="updatePreview()" rows="3" placeholder="Descreva o cenário do mundo real..." class="w-full p-2.5 rounded-md bg-slate-800 border border-slate-700 mt-1 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"></textarea>
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">2. O Desafio</label>
-                    <textarea id="input-desafio" oninput="updatePreview()" rows="3" placeholder="O que a dupla precisará resolver na prática..." class="w-full p-2.5 rounded-md bg-slate-800 border border-slate-700 mt-1 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"></textarea>
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">3. Regras de Negócio / Escopo</label>
-                    <textarea id="input-regras" oninput="updatePreview()" rows="3" placeholder="Insira as regras técnicas obrigatórias..." class="w-full p-2.5 rounded-md bg-slate-800 border border-slate-700 mt-1 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"></textarea>
+                <div class="bg-slate-950 p-3 rounded-md border border-slate-800 space-y-3">
+                    <span class="block text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Cabeçalho & Metadados</span>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">Unidade Curricular (UC)</label>
+                        <input type="text" id="input-uc" oninput="updatePreview()" placeholder="Ex: Programação de Aplicativos" class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">Curso</label>
+                        <input type="text" id="input-curso" oninput="updatePreview()" placeholder="Ex: Técnico em Desenvolvimento de Sistemas" class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div class="flex items-center justify-between pt-1">
+                        <label class="text-[10px] font-semibold text-slate-400 uppercase">Inserir nome dos alunos?</label>
+                        <input type="checkbox" id="input-check-alunos" onchange="toggleAlunosField()" checked class="w-4 h-4 text-indigo-600 bg-slate-800 border-slate-700 rounded focus:ring-indigo-500">
+                    </div>
+                    <div id="wrapper-input-dupla">
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">Nome do Aluno / Dupla</label>
+                        <input type="text" id="input-dupla" oninput="updatePreview()" placeholder="Ex: João Silva e Vinicius Braz" class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">Tema Geral da Avaliação</label>
+                        <input type="text" id="input-tema" oninput="updatePreview()" placeholder="Ex: Agendamento de Barbearia" class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    </div>
                 </div>
 
-                <div class="border-t border-slate-800 pt-4">
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">4. Entregáveis e Tempos</label>
+                <div class="bg-slate-950 p-3 rounded-md border border-slate-800 space-y-3">
+                    <span class="block text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Diretrizes e Instruções</span>
+                    <div>
+                        <textarea id="input-instrucoes" oninput="updatePreview()" rows="4" placeholder="Insira as instruções gerais que aparecem no bloco cinza da prova..." class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-md border border-slate-800 space-y-3">
+                    <span class="block text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Conteúdo Técnico</span>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">1. Contextualização</label>
+                        <textarea id="input-contexto" oninput="updatePreview()" rows="3" placeholder="Descreva o cenário do mundo real..." class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">2. O Desafio</label>
+                        <textarea id="input-desafio" oninput="updatePreview()" rows="3" placeholder="O que precisará ser resolvido na prática..." class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-slate-400 uppercase">3. Regras de Negócio / Escopo</label>
+                        <textarea id="input-regras" oninput="updatePreview()" rows="3" placeholder="Insira as regras técnicas obrigatórias..." class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-md border border-slate-800">
+                    <label class="block text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-2">4. Entregáveis e Tempos</label>
                     <div class="flex gap-2">
-                        <select id="select-entregavel" class="flex-1 p-2 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <select id="select-entregavel" class="flex-1 p-2 rounded bg-slate-800 border border-slate-700 text-xs text-slate-200 focus:outline-none">
                             <option value="Modelagem de Banco (Script .SQL)">Modelagem de Banco (Script .SQL)</option>
                             <option value="Configuração do Servidor & CORS">Configuração do Servidor & CORS</option>
                             <option value="Documentação de Rotas (.HTTP)">Documentação de Rotas (.HTTP)</option>
@@ -83,35 +109,35 @@
                             <option value="Interface Condicional (Filtro ADM)">Interface Condicional (Filtro ADM)</option>
                             <option value="Componentização & Passagem de Props">Componentização & Passagem de Props</option>
                         </select>
-                        <input type="text" id="tempo-entregavel" placeholder="30 min" class="w-20 p-2 rounded-md bg-slate-800 border border-slate-700 text-xs text-center text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <button onclick="addEntregavel()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 rounded-md font-bold text-sm transition-colors">+</button>
+                        <input type="text" id="tempo-entregavel" placeholder="30 min" class="w-16 p-2 rounded bg-slate-800 border border-slate-700 text-xs text-center text-slate-100 focus:outline-none">
+                        <button onclick="addEntregavel()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 rounded font-bold text-sm">+</button>
                     </div>
-                    <ul id="lista-entregaveis-dados" class="space-y-1.5 mt-3 max-h-32 overflow-y-auto pr-1"></ul>
+                    <ul id="lista-entregaveis-dados" class="space-y-1 mt-2 max-h-32 overflow-y-auto"></ul>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-md border border-slate-800 space-y-3">
+                    <span class="block text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Configurações de Rodapé</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[9px] font-semibold text-slate-400 uppercase">Texto Esquerda</label>
+                            <input type="text" id="input-rodape-esq" oninput="updatePreview()" placeholder="Avaliação Prática..." class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-[11px] text-slate-100 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-semibold text-slate-400 uppercase">Texto Direita</label>
+                            <input type="text" id="input-rodape-dir" oninput="updatePreview()" placeholder="Foco Técnico..." class="w-full p-2 rounded bg-slate-800 border border-slate-700 mt-1 text-[11px] text-slate-100 focus:outline-none">
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div id="area-json" class="hidden space-y-4">
-                <p class="text-xs text-slate-400 leading-relaxed">Cole a estrutura padronizada abaixo para carregar os dados instantaneamente na folha.</p>
-                <textarea id="input-json-area" rows="10" class="w-full p-2.5 font-mono text-xs rounded-md bg-slate-800 border border-slate-700 text-emerald-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none" placeholder="Cole o JSON aqui..."></textarea>
+                <p class="text-xs text-slate-400 leading-relaxed">Cole a estrutura flexível abaixo para carregar todos os metadados dinamicamente.</p>
+                <textarea id="input-json-area" rows="12" class="w-full p-2.5 font-mono text-xs rounded-md bg-slate-800 border border-slate-700 text-emerald-400 focus:outline-none resize-none" placeholder="Cole o JSON aqui..."></textarea>
                 <button onclick="carregarJSON()" class="w-full bg-indigo-600 hover:bg-indigo-500 py-2.5 rounded-md text-xs font-semibold text-white tracking-wide transition-colors shadow">Carregar Dados do JSON</button>
-                
-                <div class="border-t border-slate-800 pt-3">
-                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Estrutura Esperada:</span>
-                    <pre class="bg-slate-950 p-2.5 rounded border border-slate-800 text-[10px] text-slate-400 overflow-x-auto select-all">{
-  "dupla": "Nome dos Alunos",
-  "tema": "Tema da Prova",
-  "contexto": "Texto...",
-  "desafio": "Texto...",
-  "regras": "Texto...",
-  "entregaveis": [
-    {"nome": "Script SQL", "tempo": "30 min"}
-  ]
-}</pre>
-                </div>
             </div>
         </div>
 
-        <div class="mt-6 border-t border-slate-800 pt-4">
+        <div class="absolute bottom-0 left-0 right-0 p-6 bg-slate-900 border-t border-slate-800 z-20">
             <button onclick="gerarPDF()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-md shadow-lg flex items-center justify-center text-sm tracking-wide transition-all uppercase">
                 Exportar PDF Oficial
             </button>
@@ -127,8 +153,8 @@
                         <div class="flex justify-between items-start border-b border-black pb-2 mb-2">
                             <div>
                                 <h2 class="text-base font-bold tracking-tight uppercase">Avaliação Prática de Desempenho</h2>
-                                <p class="text-[10px] font-medium text-gray-700">Unidade Curricular: Programação de Aplicativos</p>
-                                <p class="text-[10px] font-medium text-gray-700">Curso: Técnico em Desenvolvimento de Sistemas - SESI SENAI</p>
+                                <p class="text-[10px] font-medium text-gray-700">Unidade Curricular: <span id="view-uc" class="font-bold">Programação de Aplicativos</span></p>
+                                <p class="text-[10px] font-medium text-gray-700">Curso: <span id="view-curso" class="font-bold">Técnico em Desenvolvimento de Sistemas - SESI SENAI</span></p>
                             </div>
                             <div class="text-right">
                                 <div class="border border-black px-4 py-1.5 font-bold text-center bg-gray-50 text-[10px]">
@@ -140,7 +166,7 @@
                         <div class="grid grid-cols-3 gap-2 text-[10px]">
                             <div class="col-span-2 border-r border-black pr-2">
                                 <span class="font-bold uppercase">Estudante(s):</span> 
-                                <div id="view-dupla" class="font-mono text-[11px] underline min-h-[16px] text-slate-900 mt-0.5">Defina a dupla</div>
+                                <div id="view-dupla" class="font-mono text-[11px] underline min-h-[16px] text-slate-900 mt-0.5">....................................................................................</div>
                             </div>
                             <div class="pl-2">
                                 <span class="font-bold uppercase">Data:</span> <span class="font-mono block mt-0.5">___/___/2026</span>
@@ -153,27 +179,24 @@
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 border border-gray-200 p-2.5 text-[10px] mb-4 space-y-1 text-gray-700 avoid-break">
-                        <p><strong>• Restrições de Ambiente:</strong> Durante a execução da avaliação técnica local, <u>não é permitida</u> a utilização de aparelhos celulares ou acessos a sites externos da internet.</p>
-                        <p><strong>• Configuração Inicial:</strong> O laboratório conta com as dependências do Fastify e o driver do PostgreSQL (<span class="font-mono text-[9px]">pg</span>) pré-instalados no Back-End. O ecossistema do Front-End dispõe de um projeto React limpo construído via Vite.</p>
-                        <p><strong>• Estratégia de Desenvolvimento:</strong> A atividade deve ser realizada em duplas de desenvolvimento síncrono. Um integrante assume o desenvolvimento do banco de dados e rotas HTTP da API, enquanto o outro foca na criação dos componentes de tela e sincronização de estados em React.</p>
-                        <p><strong>• Procedimento de Entrega:</strong> Ao concluir, cada pasta (Back-End e Front-End) deve ser compactada individualmente no formato <strong>.zip</strong> excluindo a pasta <span class="font-mono text-[9px]">node_modules</span>.</p>
+                    <div id="wrapper-view-instrucoes" class="bg-gray-50 border border-gray-200 p-2.5 text-[10px] mb-4 text-gray-700 avoid-break whitespace-pre-wrap">
+                        Defina as diretrizes gerais da avaliação...
                     </div>
 
                     <div class="space-y-4">
                         <div class="avoid-break">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1">1. Contextualização</h3>
-                            <p id="view-contexto" class="whitespace-pre-wrap text-justify text-gray-800 italic pr-2">Insira o contexto técnico da situação de aprendizagem...</p>
+                            <p id="view-contexto" class="whitespace-pre-wrap text-justify text-gray-800 italic pr-2">Insira o contexto técnico...</p>
                         </div>
 
                         <div class="avoid-break">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1">2. O Desafio Proposto</h3>
-                            <p id="view-desafio" class="whitespace-pre-wrap text-justify text-gray-800 pr-2">Insira a descrição detalhada do desafio prático que deve ser codificado...</p>
+                            <p id="view-desafio" class="whitespace-pre-wrap text-justify text-gray-800 pr-2">Insira o desafio prático...</p>
                         </div>
 
                         <div class="avoid-break">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1">3. Regras de Negócio e Escopo Técnico</h3>
-                            <p id="view-regras" class="whitespace-pre-wrap text-gray-800 pr-2">Defina as regras restritivas do banco de dados e das rotas de integração...</p>
+                            <p id="view-regras" class="whitespace-pre-wrap text-gray-800 pr-2">Defina as regras restritivas...</p>
                         </div>
 
                         <div class="avoid-break pt-2">
@@ -187,7 +210,7 @@
                                 </thead>
                                 <tbody id="view-tabela-entregaveis">
                                     <tr>
-                                        <td colspan="2" class="border border-gray-300 p-2 text-center text-gray-400 italic">Nenhum entregável adicionado ainda.</td>
+                                        <td colspan="2" class="border border-gray-300 p-2 text-center text-gray-400 italic">Nenhum entregável adicionado.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -196,8 +219,8 @@
                 </div>
 
                 <div class="border-t border-gray-200 pt-2 mt-8 text-[9px] text-gray-400 flex justify-between tracking-wide avoid-break">
-                    <span>Avaliação Prática de Desempenho por Dupla Direcionada</span>
-                    <span>Foco Técnico: Fastify + PostgreSQL + React Core</span>
+                    <span id="view-rodape-esq">Avaliação Prática de Desempenho</span>
+                    <span id="view-rodape-dir">Foco Técnico: Fastify + PostgreSQL + React Core</span>
                 </div>
 
             </div>
@@ -208,12 +231,19 @@
         let listaEntregaveis = [];
 
         window.onload = function() {
+            // Inicialização com padrão flexível contendo instruções e uc editáveis
             document.getElementById('input-json-area').value = JSON.stringify({
-                "dupla": "Nilton e Vinicius Braz",
+                "uc": "Programação de Aplicativos",
+                "curso": "Técnico em Desenvolvimento de Sistemas - SESI SENAI",
+                "mostrarAlunos": false,
+                "dupla": "",
                 "tema": "Sistema de Agendamento de Barbearia 'Corte & Estilo' (Integração Completa)",
+                "instrucoes": "• Restrições de Ambiente: Durante a execução da avaliação técnica local, não é permitida a utilização de aparelhos celulares ou acessos a sites externos da internet.\n• Configuração Inicial: O laboratório conta com as dependências do Fastify e o driver do PostgreSQL (pg) pré-instalados no Back-End. O ecossistema do Front-End dispõe de um projeto React limpo construído via Vite.\n• Estratégia de Desenvolvimento: A atividade deve ser realizada de forma consistente. Um integrante assume o desenvolvimento do banco de dados e rotas HTTP da API, enquanto o outro foca na criação dos componentes de tela e sincronização de estados em React.\n• Procedimento de Entrega: Ao concluir, cada pasta (Back-End e Front-End) deve ser compactada individualmente no formato .zip excluindo a pasta node_modules.",
                 "contexto": "A barbearia 'Corte & Estilo' está passando por um crescimento acelerado e precisa substituir o controle manual em caderno por um sistema digital integrado. Os clientes agendam serviços variados e a gerência precisa controlar tudo em tempo real.",
-                "desafio": "A dupla deve construir um ecossistema completo. O responsável pelo Back-end estruturará a tabela de clientes e agendamentos contendo um relacionamento 1:N (um cliente possui múltiplos agendamentos), enquanto o desenvolvedor de Front-end criará as interfaces de cadastro e painel administrativo.",
+                "desafio": "A equipe deve construir um ecossistema completo. O responsável pelo Back-end estruturará a tabela de clientes e agendamentos contendo um relacionamento 1:N, enquanto o desenvolvedor de Front-end criará as interfaces de cadastro e painel administrativo.",
                 "regras": "1. O Back-end deve conter validação de e-mail único no cadastro.\n2. É obrigatório criar um arquivo REST Client contendo todas as rotas documentadas.\n3. O Front-end deve ocultar o botão de exclusão caso o perfil ativo não seja 'adm'.",
+                "rodapeEsquerda": "Avaliação Prática por Dupla Direcionada",
+                "rodapeDireita": "Foco Técnico: Fastify + PostgreSQL + React Core",
                 "entregaveis": [
                     {"nome": "Modelagem de Banco (Script .SQL) com FK", "tempo": "25 min"},
                     {"nome": "Configuração do Servidor & CORS no Fastify", "tempo": "15 min"},
@@ -223,6 +253,13 @@
                     {"nome": "Consumo Assíncrono (Fetch) & Renderização Dinâmica (.map)", "tempo": "40 min"}
                 ]
             }, null, 2);
+            
+            // Valores padrão dos inputs manuais
+            document.getElementById('input-uc').value = "Programação de Aplicativos";
+            document.getElementById('input-curso').value = "Técnico em Desenvolvimento de Sistemas - SESI SENAI";
+            document.getElementById('input-rodape-esq').value = "Avaliação Prática de Desempenho";
+            document.getElementById('input-rodape-dir').value = "Foco Técnico: Fastify + PostgreSQL + React Core";
+            
             carregarJSON();
         };
 
@@ -245,12 +282,40 @@
             }
         }
 
+        function toggleAlunosField() {
+            const checked = document.getElementById('input-check-alunos').checked;
+            const wrapper = document.getElementById('wrapper-input-dupla');
+            if (checked) {
+                wrapper.classList.remove('hidden');
+            } else {
+                wrapper.classList.add('hidden');
+                document.getElementById('input-dupla').value = "";
+            }
+            updatePreview();
+        }
+
         function updatePreview() {
-            document.getElementById('view-dupla').innerText = document.getElementById('input-dupla').value || "Defina a dupla";
+            document.getElementById('view-uc').innerText = document.getElementById('input-uc').value || "Programação de Aplicativos";
+            document.getElementById('view-curso').innerText = document.getElementById('input-curso').value || "Técnico em Desenvolvimento de Sistemas";
+            
+            const checkAlunos = document.getElementById('input-check-alunos').checked;
+            const valDupla = document.getElementById('input-dupla').value.trim();
+            
+            if (checkAlunos && valDupla) {
+                document.getElementById('view-dupla').innerText = valDupla;
+            } else {
+                document.getElementById('view-dupla').innerText = "....................................................................................";
+            }
+
             document.getElementById('view-tema').innerText = document.getElementById('input-tema').value || "Defina o tema da prova";
+            document.getElementById('wrapper-view-instrucoes').innerText = document.getElementById('input-instrucoes').value || "Defina as diretrizes gerais da avaliação...";
             document.getElementById('view-contexto').innerText = document.getElementById('input-contexto').value || "Insira o contexto técnico...";
             document.getElementById('view-desafio').innerText = document.getElementById('input-desafio').value || "Insira a descrição detalhada do desafio...";
             document.getElementById('view-regras').innerText = document.getElementById('input-regras').value || "Defina as regras restritivas...";
+            
+            document.getElementById('view-rodape-esq').innerText = document.getElementById('input-rodape-esq').value || "Avaliação Prática";
+            document.getElementById('view-rodape-dir').innerText = document.getElementById('input-rodape-dir').value || "";
+            
             renderTable();
         }
 
@@ -276,7 +341,7 @@
         function renderListDados() {
             const container = document.getElementById('lista-entregaveis-dados');
             container.innerHTML = listaEntregaveis.map((item, index) => `
-                <li class="flex justify-between items-center bg-slate-800 p-2 rounded border border-slate-700 text-xs mt-1">
+                <li class="flex justify-between items-center bg-slate-800 p-2 rounded border border-slate-700 text-[11px] mt-1">
                     <span class="text-slate-300 truncate mr-2">${item.nome} (${item.tempo})</span>
                     <button onclick="removerEntregavel(${index})" class="text-rose-400 hover:text-rose-500 font-semibold px-1">Remover</button>
                 </li>
@@ -286,7 +351,7 @@
         function renderTable() {
             const tbody = document.getElementById('view-tabela-entregaveis');
             if(listaEntregaveis.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="2" class="border border-gray-300 p-2 text-center text-gray-400 italic">Nenhum entregável adicionado ainda.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="2" class="border border-gray-300 p-2 text-center text-gray-400 italic">Nenhum entregável adicionado.</td></tr>`;
                 return;
             }
 
@@ -303,14 +368,25 @@
                 const rawJson = document.getElementById('input-json-area').value;
                 const data = JSON.parse(rawJson);
                 
+                document.getElementById('input-uc').value = data.uc || "Programação de Aplicativos";
+                document.getElementById('input-curso').value = data.curso || "Técnico em Desenvolvimento de Sistemas";
+                
+                const mostrarAlunos = data.mostrarAlunos !== undefined ? data.mostrarAlunos : true;
+                document.getElementById('input-check-alunos').checked = mostrarAlunos;
+                
                 document.getElementById('input-dupla').value = data.dupla || "";
                 document.getElementById('input-tema').value = data.tema || "";
+                document.getElementById('input-instrucoes').value = data.instrucoes || "";
                 document.getElementById('input-contexto').value = data.contexto || "";
                 document.getElementById('input-desafio').value = data.desafio || "";
                 document.getElementById('input-regras').value = data.regras || "";
                 
+                document.getElementById('input-rodape-esq').value = data.rodapeEsquerda || "Avaliação Prática de Desempenho";
+                document.getElementById('input-rodape-dir').value = data.rodapeDireita || "";
+                
                 listaEntregaveis = data.entregaveis || [];
                 
+                toggleAlunosField();
                 updatePreview();
                 renderListDados();
             } catch (error) {
@@ -320,12 +396,17 @@
 
         function gerarPDF() {
             const elementoElement = document.getElementById('pdf-content');
-            const nomeDupla = document.getElementById('input-dupla').value.trim() || "Geral";
-            const nomeArquivoSanitizado = nomeDupla.replace(/[^a-z0-9áéíóúçãõ ]/gi, '').replace(/\s+/g, '_');
+            const nomeDupla = document.getElementById('input-dupla').value.trim();
+            const checkAlunos = document.getElementById('input-check-alunos').checked;
+            
+            let sufixoNome = "Impressao_Geral";
+            if(checkAlunos && nomeDupla) {
+                sufixoNome = nomeDupla.replace(/[^a-z0-9áéíóúçãõ ]/gi, '').replace(/\s+/g, '_');
+            }
 
             const opcoes = {
                 margin:       0, 
-                filename:     `SA_Avaliacao_Pratica_${nomeArquivoSanitizado}.pdf`,
+                filename:     `Avaliacao_Pratica_${sufixoNome}.pdf`,
                 image:        { type: 'jpeg', quality: 1.0 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
