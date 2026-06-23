@@ -7,20 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* Estilos específicos para garantir precisão milimétrica no preview e na impressão */
+        /* Configuração para simular a folha A4 permitindo expansão dinâmica */
         .page-a4 {
             width: 210mm;
-            height: 297mm;
+            min-height: 297mm;
             background: white;
             color: black;
             padding: 15mm;
             box-sizing: border-box;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
+        
+        /* Força o html2pdf a não quebrar seções importantes ao meio */
+        .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
         @media print {
             .no-print { display: none; }
             body { background: white; }
-            .page-a4 { box-shadow: none; margin: 0; p-0 }
+            .page-a4 { box-shadow: none; margin: 0; width: 100%; }
         }
     </style>
 </head>
@@ -116,7 +123,7 @@
             <div id="pdf-content" class="page-a4 flex flex-col justify-between font-sans text-[11px] leading-relaxed">
                 
                 <div>
-                    <div class="border border-black p-3 mb-4">
+                    <div class="border border-black p-3 mb-4 avoid-break">
                         <div class="flex justify-between items-start border-b border-black pb-2 mb-2">
                             <div>
                                 <h2 class="text-base font-bold tracking-tight uppercase">Avaliação Prática de Desempenho</h2>
@@ -146,7 +153,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 border border-gray-200 p-2.5 text-[10px] mb-4 space-y-1 text-gray-700">
+                    <div class="bg-gray-50 border border-gray-200 p-2.5 text-[10px] mb-4 space-y-1 text-gray-700 avoid-break">
                         <p><strong>• Restrições de Ambiente:</strong> Durante a execução da avaliação técnica local, <u>não é permitida</u> a utilização de aparelhos celulares ou acessos a sites externos da internet.</p>
                         <p><strong>• Configuração Inicial:</strong> O laboratório conta com as dependências do Fastify e o driver do PostgreSQL (<span class="font-mono text-[9px]">pg</span>) pré-instalados no Back-End. O ecossistema do Front-End dispõe de um projeto React limpo construído via Vite.</p>
                         <p><strong>• Estratégia de Desenvolvimento:</strong> A atividade deve ser realizada em duplas de desenvolvimento síncrono. Um integrante assume o desenvolvimento do banco de dados e rotas HTTP da API, enquanto o outro foca na criação dos componentes de tela e sincronização de estados em React.</p>
@@ -154,22 +161,22 @@
                     </div>
 
                     <div class="space-y-4">
-                        <div>
+                        <div class="avoid-break">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1">1. Contextualização</h3>
                             <p id="view-contexto" class="whitespace-pre-wrap text-justify text-gray-800 italic pr-2">Insira o contexto técnico da situação de aprendizagem...</p>
                         </div>
 
-                        <div>
+                        <div class="avoid-break">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1">2. O Desafio Proposto</h3>
                             <p id="view-desafio" class="whitespace-pre-wrap text-justify text-gray-800 pr-2">Insira a descrição detalhada do desafio prático que deve ser codificado...</p>
                         </div>
 
-                        <div>
+                        <div class="avoid-break">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1">3. Regras de Negócio e Escopo Técnico</h3>
                             <p id="view-regras" class="whitespace-pre-wrap text-gray-800 pr-2">Defina as regras restritivas do banco de dados e das rotas de integração...</p>
                         </div>
 
-                        <div>
+                        <div class="avoid-break pt-2">
                             <h3 class="font-bold text-[10px] uppercase bg-gray-100 px-2 py-0.5 border-l-2 border-black mb-1.5">4. Cronograma de Entregáveis Recomendados</h3>
                             <table class="w-full text-[10px] border-collapse border border-gray-300">
                                 <thead>
@@ -188,7 +195,7 @@
                     </div>
                 </div>
 
-                <div class="border-t border-gray-200 pt-1 text-[9px] text-gray-400 flex justify-between tracking-wide">
+                <div class="border-t border-gray-200 pt-2 mt-8 text-[9px] text-gray-400 flex justify-between tracking-wide avoid-break">
                     <span>Avaliação Prática de Desempenho por Dupla Direcionada</span>
                     <span>Foco Técnico: Fastify + PostgreSQL + React Core</span>
                 </div>
@@ -269,7 +276,7 @@
         function renderListDados() {
             const container = document.getElementById('lista-entregaveis-dados');
             container.innerHTML = listaEntregaveis.map((item, index) => `
-                <li class="flex justify-between items-center bg-slate-800 p-2 rounded border border-slate-700 text-xs">
+                <li class="flex justify-between items-center bg-slate-800 p-2 rounded border border-slate-700 text-xs mt-1">
                     <span class="text-slate-300 truncate mr-2">${item.nome} (${item.tempo})</span>
                     <button onclick="removerEntregavel(${index})" class="text-rose-400 hover:text-rose-500 font-semibold px-1">Remover</button>
                 </li>
@@ -317,7 +324,7 @@
             const nomeArquivoSanitizado = nomeDupla.replace(/[^a-z0-9áéíóúçãõ ]/gi, '').replace(/\s+/g, '_');
 
             const opcoes = {
-                margin:       0, // Margem zero aqui evita distorções de escala internas da biblioteca
+                margin:       0, 
                 filename:     `SA_Avaliacao_Pratica_${nomeArquivoSanitizado}.pdf`,
                 image:        { type: 'jpeg', quality: 1.0 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
