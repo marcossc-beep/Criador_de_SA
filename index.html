@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criador de SA - SESI SENAI (Atualizado)</title>
+  <title>AVALIAÇÃO PRÁTICA DE DESEMPENHO</title>
   <style>
     /* --- CONFIGURAÇÕES GERAIS --- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, Helvetica, sans-serif; /* Troca para uma fonte mais estável para impressão */
     }
 
     body {
@@ -47,7 +47,7 @@
 
     .sidebar-container textarea {
       width: 100%;
-      height: calc(100vh - 180px); /* Ajuste dinâmico de altura */
+      height: calc(100vh - 180px);
       background-color: #1e1f38;
       color: #a5b4fc;
       border: 1px solid #3730a3;
@@ -58,7 +58,6 @@
       transition: border-color 0.2s;
     }
 
-    /* Classe de erro para o textarea */
     .sidebar-container textarea.error-input {
       border-color: #ef4444 !important;
     }
@@ -80,9 +79,9 @@
       background-color: #047857;
     }
 
-    /* --- ÁREA DE PREVIEW (Ajustada para rolar ao lado da sidebar) --- */
+    /* --- ÁREA DE PREVIEW --- */
     .preview-container {
-      margin-left: 320px; /* Avança o espaço da sidebar fixa */
+      margin-left: 320px;
       flex: 1;
       padding: 40px;
       display: flex;
@@ -91,7 +90,6 @@
       min-height: 100vh;
     }
 
-    /* Folha A4 simulada na tela */
     .document-page {
       background: #ffffff;
       width: 210mm;
@@ -100,7 +98,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
 
-    /* --- ESTILIZAÇÃO DO DOCUMENTO (Visual Oficial) --- */
+    /* --- ESTILIZAÇÃO DO DOCUMENTO --- */
     .doc-header-table {
       border: 2px solid #000000;
       width: 100%;
@@ -114,7 +112,6 @@
       border-bottom: 2px solid #000000;
     }
 
-    /* Remove a borda inferior do último elemento visível da tabela automaticamente */
     .doc-row:last-child {
       border-bottom: none;
     }
@@ -170,10 +167,6 @@
       font-size: 13px;
     }
 
-    .theme-row {
-      font-size: 14px;
-    }
-
     /* Conteúdo Dinâmico */
     .doc-content h2 {
       font-size: 14px;
@@ -183,21 +176,26 @@
       text-transform: uppercase;
     }
 
-    .doc-content p, .doc-content li {
+    .doc-content p {
       font-size: 13px;
       line-height: 1.5;
       color: #1f2937;
       margin-bottom: 10px;
     }
 
-    /* --- CORREÇÃO DO BOLD NOS LIs --- */
-    .doc-content li {
-      font-weight: normal; /* Garante que os itens não fiquem em negrito */
+    /* --- COMPORTAMENTO FIXADO PARA AS LISTAS --- */
+    .doc-content ul {
+      margin-left: 22px;
+      margin-bottom: 15px;
     }
 
-    .doc-content ul {
-      margin-left: 20px;
-      margin-bottom: 15px;
+    .doc-content li {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1f2937;
+      margin-bottom: 8px;
+      font-weight: 400 !important; /* Força o peso normal em qualquer navegador */
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Tabela do Cronograma */
@@ -219,11 +217,15 @@
       font-weight: bold;
     }
 
-    /* --- REGRAS DE IMPRESSÃO (Geração do PDF limpo) --- */
+    /* --- REGRAS DE IMPRESSÃO --- */
     @media print {
+      @page {
+        margin: 15mm; /* Margem da página PDF */
+      }
+      
       body {
         background-color: #ffffff;
-        -webkit-print-color-adjust: exact; /* Força a impressão das cores de fundo */
+        -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
       
@@ -256,19 +258,18 @@
 {
   "unidadeCurricular": "Programação de Aplicativos",
   "curso": "Técnico em Desenvolvimento de Sistemas - SESI SENAI",
-  "temaAvaliacao": "Sistema de Agendamento de Barbearia 'Corte & Estilo' (Integração Completa)",
-  "mostrarAlunos": false,
-  "contextualizacao": "A barbearia 'Corte & Estilo' está passando por um crescimento acelerado e precisa substituir o controle manual em caderno por um sistema digital integrado.",
-  "desafio": "A equipe deve construir um ecossistema completo. O responsável pelo Back-end estruturará a tabela de clientes, enquanto o Front-end criará as interfaces.",
+  "temaAvaliacao": "Sistema de Gerenciamento de Estoque e Rastreabilidade de Mercadorias",
+  "mostrarAlunos": true,
+  "contextualizacao": "Uma empresa no ramo de comércio de autopeças e ferramentas está enfrentando sérios problemas com o controle manual de suas mercadorias...",
+  "desafio": "O desafio consiste em desenvolver a estrutura completa desse sistema...",
   "regrasNegocio": [
+    "Ambiente Back-end: Desenvolvimento utilizando o microframework Fastify integrado ao driver PostgreSQL (pacote pg) por meio de uma conexão em Pool.",
     "O Back-end deve conter validação de e-mail único no cadastro.",
-    "É obrigatório criar um arquivo REST Client contendo todas as rotas.",
     "O Front-end deve ocultar o botão de exclusão caso o perfil ativo não seja 'adm'."
   ],
   "cronograma": [
     { "entrega": "Modelagem de Banco (Script .SQL) com FK", "tempo": "25 min" },
-    { "entrega": "Configuração do Servidor & CORS no Fastify", "tempo": "15 min" },
-    { "entrega": "Rota POST (Cadastro) com validação de duplicidade", "tempo": "30 min" }
+    { "entrega": "Configuração do Servidor & CORS no Fastify", "tempo": "15 min" }
   ]
 }
       </textarea>
@@ -276,21 +277,17 @@
     </aside>
 
     <main class="preview-container">
-      <div class="document-page" id="documentPage">
-        </div>
+      <div class="document-page" id="documentPage"></div>
     </main>
 
   </div>
 
   <script>
-    // Função que monta e renderiza o HTML na tela baseado no objeto JSON
     function renderizarDocumento(dados) {
       const container = document.getElementById('documentPage');
 
-      // Monta a estrutura usando Template Strings de forma limpa
       container.innerHTML = `
         <div class="doc-header-table">
-          
           <div class="doc-row">
             <div class="doc-cell title-cell">
               <h1>AVALIAÇÃO PRÁTICA DE DESEMPENHO</h1>
@@ -322,7 +319,6 @@
               <p style="margin-top: 5px; font-weight: bold;">${dados.temaAvaliacao || ''}</p>
             </div>
           </div>
-
         </div>
 
         <div class="doc-content">
@@ -343,7 +339,7 @@
               <tr>
                 <th>Mapeamento do Requisito Técnico / Entregável</th>
                 <th style="width: 120px;">Tempo Estimado</th>
-              }</tr>
+              </tr>
             </thead>
             <tbody>
               ${(dados.cronograma || []).map(item => `
@@ -358,25 +354,19 @@
       `;
     }
 
-    // Função para ler o valor da textarea e disparar a renderização
     function carregarDados() {
       const jsonInput = document.getElementById('jsonInput');
       try {
         const rawJson = jsonInput.value;
         const dadosParseados = JSON.parse(rawJson);
         renderizarDocumento(dadosParseados);
-        jsonInput.classList.remove('error-input'); // Remove erro se funcionar
+        jsonInput.classList.remove('error-input');
       } catch (erro) {
-        // alert() removido para não travar a digitação
-        jsonInput.classList.add('error-input'); // Adiciona borda vermelha
-        console.warn("JSON inválido:", erro.message); // Opcional, para console
+        jsonInput.classList.add('error-input');
       }
     }
 
-    // Atualização em Tempo Real (Live Preview)
     document.getElementById('jsonInput').addEventListener('input', carregarDados);
-
-    // Inicializa a página com o JSON padrão configurado na textarea
     window.onload = carregarDados;
   </script>
 </body>
