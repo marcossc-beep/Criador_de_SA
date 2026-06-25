@@ -4,14 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AVALIAÇÃO PRÁTICA DE DESEMPENHO</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+  
   <style>
     /* --- CONFIGURAÇÕES GERAIS --- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      /* Mudança para Verdana: resolve o bug visual dos 'i' e 'l' grossos no PDF do Chrome */
-      font-family: Verdana, Geneva, sans-serif; 
+      /* Utilizando a nova fonte importada */
+      font-family: 'Inter', sans-serif; 
     }
 
     body {
@@ -127,7 +132,7 @@
     }
 
     .title-cell h1 {
-      font-size: 16px; /* Ajustado levemente para a Verdana */
+      font-size: 16px; 
       font-weight: 800;
       margin-bottom: 8px;
     }
@@ -185,7 +190,7 @@
       font-weight: 400 !important;
     }
 
-    /* --- CONFIGURAÇÃO DAS LISTAS (Removendo qualquer chance de bold falso) --- */
+    /* --- CONFIGURAÇÃO DAS LISTAS --- */
     .doc-content ul {
       margin-left: 25px;
       margin-bottom: 15px;
@@ -196,7 +201,7 @@
       line-height: 1.6;
       color: #1f2937;
       margin-bottom: 8px;
-      font-weight: 400 !important; /* Força o peso normal da fonte */
+      font-weight: 400 !important;
     }
 
     /* Tabela do Cronograma */
@@ -258,10 +263,11 @@
   "temaAvaliacao": "Sistema de Gerenciamento de Estoque e Rastreabilidade de Mercadorias",
   "mostrarAlunos": true,
   "contextualizacao": "Uma empresa no ramo de comércio de autopeças e ferramentas está enfrentando sérios problemas com o controle manual de suas mercadorias. A falta de um registro digitalizado faz com que itens frequentemente sumam das prateleiras sem justificativa, enquanto outros produtos obsoletos ficam armazenados por meses em excesso. Atualmente, o controle de entradas e saídas é feito em planilhas locais descentralizadas, o que impossibilita saber com precisão o fluxo de reabastecimento ou gerar relatórios confiáveis sobre o andamento das mercadorias. Para mitigar esses problemas e centralizar o fluxo operacional, a gerência solicitou o desenvolvimento de uma aplicação informatizada simplificada para automatizar o controle do estoque.",
-  "desafio": "O desafio consiste em desenvolver a estrutura completa desse sistema de gerenciamento de estoque utilizando Fastify, PostgreSQL e React. O estudante deverá implementar a modelagem física do banco de dados, a lógica de endpoints do servidor (Back-End) e as telas de interação dinâmica (Front-End). É mandatório garantir a correta comunicação assíncrona entre a interface e o banco de dados. O escopo exige o desenvolvimento de um fluxo funcional onde novos produtos possam ser catalogados e alterados, movimentações de estoque sejam registradas por período e relatórios cruzados fiquem disponíveis para visualização clara na interface.",
+  "desafio": "O desafio consiste em desenvolver a estrutura completa desse sistema de gerenciamento de estoque utilizando Fastify, PostgreSQL e JavaScript puro (Vanilla JS). O estudante deverá implementar a modelagem física do banco de dados, a lógica de endpoints do servidor (Back-End) e as telas de interação dinâmica utilizando HTML, CSS e JS (Front-End). É mandatório garantir a correta comunicação assíncrona (via Fetch API) entre a interface e o banco de dados. O escopo exige o desenvolvimento de um fluxo funcional onde novos produtos possam ser catalogados e alterados, movimentações de estoque sejam registradas por período e relatórios cruzados fiquem disponíveis para visualização clara na interface.",
   "regrasNegocio": [
     "Ambiente Back-End: Desenvolvimento utilizando o microframework Fastify integrado ao driver PostgreSQL (pacote pg) por meio de uma conexão em Pool.",
     "O Back-End deve conter validação de e-mail único no cadastro.",
+    "Ambiente Front-End: Desenvolvimento utilizando HTML, CSS e JavaScript puro, sem o uso de frameworks SPA.",
     "O Front-End deve ocultar o botão de exclusão caso o perfil ativo não seja 'adm'."
   ],
   "cronograma": [
