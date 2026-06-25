@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criador de SA - SESI SENAI</title>
+  <title>Criador de SA - SESI SENAI (Atualizado)</title>
   <style>
     /* --- CONFIGURAÇÕES GERAIS --- */
     * {
@@ -39,9 +39,15 @@
       gap: 20px;
     }
 
+    .sidebar-container h2 {
+      color: #a5b4fc;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
     .sidebar-container textarea {
       width: 100%;
-      height: 250px;
+      height: calc(100vh - 180px); /* Ajuste dinâmico de altura */
       background-color: #1e1f38;
       color: #a5b4fc;
       border: 1px solid #3730a3;
@@ -49,22 +55,12 @@
       padding: 10px;
       font-family: monospace;
       resize: none;
+      transition: border-color 0.2s;
     }
 
-    .btn-json {
-      width: 100%;
-      background-color: #4f46e5;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    .btn-json:hover {
-      background-color: #4338ca;
+    /* Classe de erro para o textarea */
+    .sidebar-container textarea.error-input {
+      border-color: #ef4444 !important;
     }
 
     .btn-export {
@@ -84,9 +80,9 @@
       background-color: #047857;
     }
 
-    /* --- ÁREA DE PREVIEW --- */
+    /* --- ÁREA DE PREVIEW (Ajustada para rolar ao lado da sidebar) --- */
     .preview-container {
-      margin-left: 320px;
+      margin-left: 320px; /* Avança o espaço da sidebar fixa */
       flex: 1;
       padding: 40px;
       display: flex;
@@ -118,6 +114,7 @@
       border-bottom: 2px solid #000000;
     }
 
+    /* Remove a borda inferior do último elemento visível da tabela automaticamente */
     .doc-row:last-child {
       border-bottom: none;
     }
@@ -139,12 +136,7 @@
 
     .title-cell p {
       font-size: 13px;
-      font-weight: bold;
       margin-bottom: 3px;
-    }
-
-    .title-cell p span {
-      font-weight: normal;
     }
 
     .grade-cell {
@@ -171,31 +163,14 @@
       flex: 3;
       border-right: 2px solid #000000;
       font-size: 13px;
-      font-weight: bold;
-    }
-
-    .student-cell span {
-      font-weight: normal;
     }
 
     .date-cell {
       flex: 1;
       font-size: 13px;
-      font-weight: bold;
     }
 
-    .date-cell span {
-      font-weight: normal;
-    }
-
-    .theme-cell {
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .theme-cell p {
-      margin-top: 5px;
-      font-weight: normal;
+    .theme-row {
       font-size: 14px;
     }
 
@@ -213,6 +188,11 @@
       line-height: 1.5;
       color: #1f2937;
       margin-bottom: 10px;
+    }
+
+    /* --- CORREÇÃO DO BOLD NOS LIs --- */
+    .doc-content li {
+      font-weight: normal; /* Garante que os itens não fiquem em negrito */
     }
 
     .doc-content ul {
@@ -241,12 +221,10 @@
 
     /* --- REGRAS DE IMPRESSÃO (Geração do PDF limpo) --- */
     @media print {
-      @page {
-        margin: 0; /* Remove a data, cabeçalhos de URL e rodapés nativos do navegador */
-      }
-      
       body {
         background-color: #ffffff;
+        -webkit-print-color-adjust: exact; /* Força a impressão das cores de fundo */
+        print-color-adjust: exact;
       }
       
       .sidebar-container {
@@ -262,7 +240,7 @@
       .document-page {
         width: 100% !important;
         box-shadow: none !important;
-        padding: 20mm 20mm 20mm 20mm !important; /* Adiciona a margem de segurança diretamente na página na impressão */
+        padding: 0 !important;
         margin: 0 !important;
       }
     }
@@ -273,18 +251,19 @@
   <div class="app-container">
     
     <aside class="sidebar-container">
+      <h2>Editor JSON</h2>
       <textarea id="jsonInput">
 {
   "unidadeCurricular": "Programação de Aplicativos",
   "curso": "Técnico em Desenvolvimento de Sistemas - SESI SENAI",
-  "temaAvaliacao": "Sistema de Agendamento para Estabelecimento de Estética e Barbearia (Integração Completa)",
+  "temaAvaliacao": "Sistema de Agendamento de Barbearia 'Corte & Estilo' (Integração Completa)",
   "mostrarAlunos": false,
-  "contextualizacao": "Um estabelecimento no ramo de estética e barbearia está passando por um crescimento acelerado e precisa substituir o controle manual em caderno por um sistema digital integrado.",
-  "desafio": "O estudante deve construir um ecossistema completo utilizando Fastify, PostgreSQL e React baseando-se nas estruturas desenvolvidas em sala de aula.",
+  "contextualizacao": "A barbearia 'Corte & Estilo' está passando por um crescimento acelerado e precisa substituir o controle manual em caderno por um sistema digital integrado.",
+  "desafio": "A equipe deve construir um ecossistema completo. O responsável pelo Back-end estruturará a tabela de clientes, enquanto o Front-end criará as interfaces.",
   "regrasNegocio": [
     "O Back-end deve conter validação de e-mail único no cadastro.",
-    "É obrigatório realizar relatórios consolidados unindo tabelas através de INNER JOIN.",
-    "O Front-end deve ser inicializado via Vite utilizando o template blank."
+    "É obrigatório criar um arquivo REST Client contendo todas as rotas.",
+    "O Front-end deve ocultar o botão de exclusão caso o perfil ativo não seja 'adm'."
   ],
   "cronograma": [
     { "entrega": "Modelagem de Banco (Script .SQL) com FK", "tempo": "25 min" },
@@ -293,28 +272,30 @@
   ]
 }
       </textarea>
-      <button class="btn-json" onclick="carregarDados()">Carregar Dados do JSON</button>
       <button class="btn-export" onclick="window.print()">EXPORTAR PDF OFICIAL</button>
     </aside>
 
     <main class="preview-container">
-      <div class="document-page" id="documentPage"></div>
+      <div class="document-page" id="documentPage">
+        </div>
     </main>
 
   </div>
 
   <script>
+    // Função que monta e renderiza o HTML na tela baseado no objeto JSON
     function renderizarDocumento(dados) {
       const container = document.getElementById('documentPage');
 
+      // Monta a estrutura usando Template Strings de forma limpa
       container.innerHTML = `
         <div class="doc-header-table">
           
           <div class="doc-row">
             <div class="doc-cell title-cell">
               <h1>AVALIAÇÃO PRÁTICA DE DESEMPENHO</h1>
-              <p>Unidade Curricular: <span>${dados.unidadeCurricular || ''}</span></p>
-              <p>Curso: <span>${dados.curso || ''}</span></p>
+              <p><strong>Unidade Curricular:</strong> ${dados.unidadeCurricular || ''}</p>
+              <p><strong>Curso:</strong> ${dados.curso || ''}</p>
             </div>
             <div class="doc-cell grade-cell">
               <span>Nota:</span>
@@ -325,20 +306,20 @@
           ${dados.mostrarAlunos ? `
           <div class="doc-row">
             <div class="doc-cell student-cell">
-              ESTUDANTE(S):
+              <strong>ESTUDANTE(S):</strong>
               <span>............................................................................................</span>
             </div>
             <div class="doc-cell date-cell">
-              DATA:
+              <strong>DATA:</strong>
               <span>___/___/2026</span>
             </div>
           </div>
           ` : ''}
 
           <div class="doc-row">
-            <div class="doc-cell theme-cell">
-              TEMA DA AVALIAÇÃO:
-              <p>${dados.temaAvaliacao || ''}</p>
+            <div class="doc-cell">
+              <strong>TEMA DA AVALIAÇÃO:</strong>
+              <p style="margin-top: 5px; font-weight: bold;">${dados.temaAvaliacao || ''}</p>
             </div>
           </div>
 
@@ -362,7 +343,7 @@
               <tr>
                 <th>Mapeamento do Requisito Técnico / Entregável</th>
                 <th style="width: 120px;">Tempo Estimado</th>
-              </tr>
+              }</tr>
             </thead>
             <tbody>
               ${(dados.cronograma || []).map(item => `
@@ -377,16 +358,25 @@
       `;
     }
 
+    // Função para ler o valor da textarea e disparar a renderização
     function carregarDados() {
+      const jsonInput = document.getElementById('jsonInput');
       try {
-        const rawJson = document.getElementById('jsonInput').value;
+        const rawJson = jsonInput.value;
         const dadosParseados = JSON.parse(rawJson);
         renderizarDocumento(dadosParseados);
+        jsonInput.classList.remove('error-input'); // Remove erro se funcionar
       } catch (erro) {
-        alert("Erro no formato do JSON. Verifique as vírgulas e aspas!");
+        // alert() removido para não travar a digitação
+        jsonInput.classList.add('error-input'); // Adiciona borda vermelha
+        console.warn("JSON inválido:", erro.message); // Opcional, para console
       }
     }
 
+    // Atualização em Tempo Real (Live Preview)
+    document.getElementById('jsonInput').addEventListener('input', carregarDados);
+
+    // Inicializa a página com o JSON padrão configurado na textarea
     window.onload = carregarDados;
   </script>
 </body>
