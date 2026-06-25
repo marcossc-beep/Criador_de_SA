@@ -12,36 +12,206 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    /* ... TODO O SEU CSS CONTINUA EXATAMENTE IGUAL AQUI ... */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background-color: #f3f4f6; }
-    .app-container { display: flex; min-height: 100vh; width: 100%; }
-    .sidebar-container { width: 320px; background-color: #121324; padding: 25px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 10; display: flex; flex-direction: column; gap: 20px; }
-    .sidebar-container h2 { color: #a5b4fc; font-size: 18px; margin-bottom: 10px; }
-    .sidebar-container textarea { width: 100%; height: calc(100vh - 180px); background-color: #1e1f38; color: #a5b4fc; border: 1px solid #3730a3; border-radius: 6px; padding: 10px; font-family: monospace; resize: none; }
-    .btn-export { width: 100%; background-color: #059669; color: white; border: none; padding: 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; }
-    .preview-container { margin-left: 320px; flex: 1; padding: 40px; display: flex; justify-content: center; background-color: #f8fafc; min-height: 100vh; }
-    .document-page { background: #ffffff; width: 210mm; min-height: 297mm; padding: 20mm; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
-    
-    /* Regras do documento interno */
-    .doc-header-table { border: 2px solid #000000; width: 100%; display: flex; flex-direction: column; margin-bottom: 25px; }
-    .doc-row { display: flex; border-bottom: 2px solid #000000; }
-    .doc-row:last-child { border-bottom: none; }
-    .doc-cell { padding: 12px; }
-    .title-cell { flex: 3; border-right: 2px solid #000000; }
-    .title-cell h1 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
-    .title-cell p { font-size: 12px; margin-bottom: 3px; }
-    .grade-cell { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .grade-cell span { font-size: 11px; font-weight: bold; }
-    .grade-cell .line-gap { width: 50px; border-bottom: 1px solid #000; margin-top: 15px; }
-    .student-cell { flex: 3; border-right: 2px solid #000000; font-size: 12px; }
-    .date-cell { flex: 1; font-size: 12px; }
-    .doc-content h2 { font-size: 13px; font-weight: bold; margin-top: 20px; margin-bottom: 8px; text-transform: uppercase; }
-    .doc-content p, .doc-content li { font-size: 12px; line-height: 1.6; color: #1f2937; margin-bottom: 12px; font-weight: 400 !important; }
-    .doc-content ul { margin-left: 25px; margin-bottom: 15px; }
-    .cronograma-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .cronograma-table th, .cronograma-table td { border: 1px solid #000000; padding: 8px 12px; font-size: 11px; text-align: left; }
-    .cronograma-table th { background-color: #f3f4f6; font-weight: bold; }
+    /* --- CONFIGURAÇÕES GERAIS --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif; 
+    }
+
+    body {
+      background-color: #f3f4f6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* --- SIDEBAR FIXA --- */
+    .sidebar-container {
+      width: 320px;
+      background-color: #121324;
+      padding: 25px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar-container h2 {
+      color: #a5b4fc;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-container textarea {
+      width: 100%;
+      height: calc(100vh - 180px);
+      background-color: #1e1f38;
+      color: #a5b4fc;
+      border: 1px solid #3730a3;
+      border-radius: 6px;
+      padding: 10px;
+      font-family: monospace;
+      resize: none;
+    }
+
+    .btn-export {
+      width: 100%;
+      background-color: #059669;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* --- ÁREA DE PREVIEW --- */
+    .preview-container {
+      margin-left: 320px;
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      background-color: #f8fafc;
+      min-height: 100vh;
+    }
+
+    .document-page {
+      background: #ffffff;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* --- ESTILIZAÇÃO DO DOCUMENTO --- */
+    .doc-header-table {
+      border: 2px solid #000000;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 25px;
+    }
+
+    .doc-row {
+      display: flex;
+      border-bottom: 2px solid #000000;
+    }
+
+    .doc-row:last-child {
+      border-bottom: none;
+    }
+
+    .doc-cell {
+      padding: 12px;
+    }
+
+    .title-cell {
+      flex: 3;
+      border-right: 2px solid #000000;
+    }
+
+    .title-cell h1 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .title-cell p {
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .grade-cell {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .grade-cell span {
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .grade-cell .line-gap {
+      width: 50px;
+      border-bottom: 1px solid #000;
+      margin-top: 15px;
+    }
+
+    .student-cell {
+      flex: 3;
+      border-right: 2px solid #000000;
+      font-size: 12px;
+    }
+
+    .date-cell {
+      flex: 1;
+      font-size: 12px;
+    }
+
+    .doc-content h2 {
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .doc-content p, .doc-content li {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #1f2937;
+      margin-bottom: 12px;
+      font-weight: 400 !important;
+    }
+
+    .doc-content ul {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+
+    .cronograma-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .cronograma-table th, .cronograma-table td {
+      border: 1px solid #000000;
+      padding: 8px 12px;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .cronograma-table th {
+      background-color: #f3f4f6;
+      font-weight: bold;
+    }
+
+    /* --- REGRAS CRÍTICAS PARA EVITAR QUEBRA DE TEXTO AO MEIO --- */
+    .doc-header-table,
+    .doc-content h2,
+    .doc-content p,
+    .doc-content li,
+    .cronograma-table tr {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
   </style>
 </head>
 <body>
@@ -55,12 +225,13 @@
   "curso": "Técnico em Desenvolvimento de Sistemas - SESI SENAI",
   "temaAvaliacao": "Sistema de Gerenciamento de Estoque e Rastreabilidade de Mercadorias",
   "mostrarAlunos": true,
-  "contextualizacao": "Uma empresa no ramo de comércio de autopeças e ferramentas está enfrentando sérios problemas com o controle manual de suas mercadorias. A falta de um registro digitalizado faz com que itens frequentemente sumam das prateleiras sem justificativa, enquanto outros produtos obsoletos ficam armazenados por meses em excesso. Atualmente, o controle de entradas e saídas é feito em planilhas locais descentralizadas...",
-  "desafio": "O desafio consiste em desenvolver a estrutura completa desse sistema de gerenciamento de estoque utilizando Fastify, PostgreSQL e JavaScript puro (Vanilla JS)...",
+  "contextualizacao": "Uma empresa no ramo de comércio de autopeças e ferramentas está enfrentando sérios problemas com o controle manual de suas mercadorias. A falta de um registro digitalizado faz com que itens frequentemente sumam das prateleiras sem justificativa, enquanto outros produtos obsoletos ficam armazenados por meses em excesso. Atualmente, o controle de entradas e saídas é feito em planilhas locais descentralizadas, o que impossibilita saber com precisão o fluxo de reabastecimento ou gerar relatórios confiáveis sobre o andamento das mercadorias. Para mitigar esses problemas e centralizar o fluxo operacional, a gerência solicitou o desenvolvimento de uma aplicação informatizada simplificada para automatizar o controle do estoque.",
+  "desafio": "O desafio consiste em desenvolver a estrutura completa desse sistema de gerenciamento de estoque utilizando Fastify, PostgreSQL e JavaScript puro (Vanilla JS). O estudante deverá implementar a modelagem física do banco de dados, a lógica de endpoints do servidor (Back-End) e as telas de interação dinâmica utilizando HTML, CSS e JS (Front-End). É mandatório garantir a correta comunicação assíncrona (via Fetch API) entre a interface e o banco de dados. O escopo exige o desenvolvimento de um fluxo funcional onde novos produtos possam ser catalogados e alterados, movimentações de estoque sejam registradas por período e relatórios cruzados fiquem disponíveis para visualização clara na interface.",
   "regrasNegocio": [
     "Ambiente Back-End: Desenvolvimento utilizando o microframework Fastify integrado ao driver PostgreSQL (pacote pg) por meio de uma conexão em Pool.",
     "O Back-End deve conter validação de e-mail único no cadastro.",
-    "Ambiente Front-End: Desenvolvimento utilizando HTML, CSS e JavaScript puro."
+    "Ambiente Front-End: Desenvolvimento utilizando HTML, CSS e JavaScript puro, sem o uso de frameworks SPA.",
+    "O Front-End deve ocultar o botão de exclusão caso o perfil ativo não seja 'adm'."
   ],
   "cronograma": [
     { "entrega": "Modelagem de Banco (Script .SQL) com FK", "tempo": "25 min" },
@@ -68,7 +239,7 @@
   ]
 }
       </textarea>
-      <button class="btn-export" onclick="gerarPDF()">BAIXAR PDF (SEM BUG)</button>
+      <button class="btn-export" onclick="gerarPDF()">BAIXAR PDF CORRIGIDO</button>
     </aside>
 
     <main class="preview-container">
@@ -79,7 +250,7 @@
   <script>
     function renderizarDocumento(dados) {
       const container = document.getElementById('documentPage');
-      // ... Seu código de renderizar o HTML usando o 'dados' continua igual ...
+
       container.innerHTML = `
         <div class="doc-header-table">
           <div class="doc-row">
@@ -93,6 +264,7 @@
               <div class="line-gap"></div>
             </div>
           </div>
+
           ${dados.mostrarAlunos ? `
           <div class="doc-row">
             <div class="doc-cell student-cell">
@@ -105,6 +277,7 @@
             </div>
           </div>
           ` : ''}
+
           <div class="doc-row">
             <div class="doc-cell">
               <strong>TEMA DA AVALIAÇÃO:</strong>
@@ -112,20 +285,34 @@
             </div>
           </div>
         </div>
+
         <div class="doc-content">
           <h2>1. Contextualização</h2>
           <p>${dados.contextualizacao || ''}</p>
+
           <h2>2. O Desafio Proposto</h2>
           <p>${dados.desafio || ''}</p>
+
           <h2>3. Regras de Negócio e Escopo Técnico</h2>
-          <ul>${(dados.regrasNegocio || []).map(regra => `<li>${regra}</li>`).join('')}</ul>
+          <ul>
+            ${(dados.regrasNegocio || []).map(regra => `<li>${regra}</li>`).join('')}
+          </ul>
+
           <h2>4. Cronograma de Entregáveis Recomendados</h2>
           <table class="cronograma-table">
             <thead>
-              <tr><th>Mapeamento do Requisito Técnico / Entregável</th><th style="width: 120px;">Tempo Estimado</th></tr>
+              <tr>
+                <th>Mapeamento do Requisito Técnico / Entregável</th>
+                <th style="width: 120px;">Tempo Estimado</th>
+              </tr>
             </thead>
             <tbody>
-              ${(dados.cronograma || []).map(item => `<tr><td>${item.entrega}</td><td>${item.tempo}</td></tr>`).join('')}
+              ${(dados.cronograma || []).map(item => `
+                <tr>
+                  <td>${item.entrega}</td>
+                  <td>${item.tempo}</td>
+                </tr>
+              `).join('')}
             </tbody>
           </table>
         </div>
@@ -138,27 +325,27 @@
         const dadosParseados = JSON.parse(jsonInput.value);
         renderizarDocumento(dadosParseados);
       } catch (erro) {
-        console.error("JSON Invalido");
+        console.error("JSON Inválido");
       }
     }
 
     document.getElementById('jsonInput').addEventListener('input', carregarDados);
     window.onload = carregarDados;
 
-    // --- NOVA FUNÇÃO PARA GERAR O PDF VIA BIBLIOTECA ---
+    // --- FUNÇÃO DE EXPORTAÇÃO COM REGRAS DE QUEBRA INTELIGENTES ---
     function gerarPDF() {
       const elemento = document.getElementById('documentPage');
       
-      // Configurações para garantir alta qualidade
       const opcoes = {
         margin:       0,
         filename:     'avaliacao_pratica.pdf',
         image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { scale: 3 }, // Scale 3 aumenta muito a nitidez do texto
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas:  { scale: 2.5, useCORS: true }, 
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        // Ativa o modo inteligente de quebra de página respeitando o CSS adicionado acima
+        pagebreak:    { mode: ['avoid-all', 'css'] }
       };
 
-      // Gera e faz o download automático do PDF
       html2pdf().set(opcoes).from(elemento).save();
     }
   </script>
